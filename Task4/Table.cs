@@ -8,41 +8,34 @@ namespace Task4
     {
         public static void ShowTable(string[] args)
         {
-            var table = new ConsoleTable(args);
+
+            var table = new ConsoleTable(GetRightTitle(args));
+
             for(int i = 0; i < args.Length; i++)
             {
-                string[] status = new string[args.Length];
+                string[] status = new string[args.Length + 1];
+                status[0] = args[i];
                 for (int j = 0; j < args.Length; j++)
                 {
-                    status[j] = Winner.GetStatus(args, i, j);
+                    status[j + 1] = Winner.GetStatus(args, i, j);
                 }
                 table.AddRow(status);
             }
-            
-            Console.WriteLine(table);
+
+            table.Write(Format.MarkDown);
         } 
 
-        //static string[,] MakeTable(string[] args)
-        //{
-        //    int len = args.Length;
-        //    string[,] table = new string[len, len];
+        static string[] GetRightTitle(string[] args)
+        {
+            string[] a = new string[args.Length + 1];
 
-        //    for (int i = 0; i < len; i++)
-        //    {
-        //        for (int j = 0; j < len; j++)
-        //        {
-        //            if (i == 0 && j != 0)
-        //            {
-        //                table[i, j] = args[j-1];
-        //            }
-        //            if (j == 0 && i != 0)
-        //            {
-        //                table[i, j] = args[i-1];
-        //            }
-        //        }
-        //    }
+            a[0] = " ";
+            for(int i = 1, j = 0; i < args.Length + 1; i++, j++)
+            {
+                a[i] = args[j];
+            }
 
-        //    return table;
-        //}
+            return a;
+        }
     }
 }

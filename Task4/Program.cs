@@ -12,7 +12,7 @@ namespace Task4
                 return;
             }
 
-            ////Table.ShowTable(args);
+            
 
             var gen = new GenerateKey();
 
@@ -41,13 +41,15 @@ namespace Task4
         {
             bool isInput = true;
             int number = 0;
-            string input = Console.ReadLine();
-
-            if (input == "?")
-                ShowHelp();
+            string input;
 
             while (isInput)
             {
+                input = Console.ReadLine();
+
+                if (input == "?")
+                    ShowHelp(args);
+
                 if (Int32.TryParse(input, out number))
                 {
                     if (0 <= number && number <= args.Length)
@@ -57,7 +59,7 @@ namespace Task4
                     else
                     {
                         ShowError("A number from the menu is required");
-                        input = Console.ReadLine();
+                        
                     }
                 }
             }
@@ -65,9 +67,9 @@ namespace Task4
             return number - 1;
         }
 
-        static void ShowHelp()
+        static void ShowHelp(string[] args)
         {
-            Console.WriteLine("Enter a number to make a move.");
+            Table.ShowTable(args);
         }
 
         static void ShowMenu(string[] args)

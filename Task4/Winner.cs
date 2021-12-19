@@ -2,7 +2,7 @@
 
 namespace Task4
 {
-     static class Winner
+    static class Winner
     {
         public static void ShowWinner(string[] args, int movePc, int movePerson)
         {
@@ -53,10 +53,13 @@ namespace Task4
 
         static bool isPersonWin(string[] args, int movePc, int movePerson)
         {
-            for (int i = movePerson, j = 0; j < args.Length / 2; i++, j++)
+            for (int i = movePerson, j = 0; j < args.Length; i++, j++)
             {
-                if (i == args.Length - 1)
+                if (i == args.Length)
+                {
                     i = 0;
+                }
+                    
 
                 if (j <= args.Length / 2 && i == movePc)
                     return true;
