@@ -5,20 +5,31 @@ using System.Text;
 
 namespace Task4
 {
-    static class GenerateKey
+     class GenerateKey
     {
-        public static byte[] CreateKey(int keyBytes)
+        byte[] key;
+
+        public byte[] CreateKey(int keyBytes)
         {
             RandomNumberGenerator rng = RandomNumberGenerator.Create();
 
-            byte[] key = new byte[keyBytes];
+            key = new byte[keyBytes];
             rng.GetBytes(key);
             return key;
         }
 
-        public static void ShowHMAC(byte[] a)
+        public void ShowHMAC(byte[] a, byte[] move)
         {
-            Console.WriteLine("PC HMAC:" + BitConverter.ToString(a, 0));
+            var hmac = new HMACSHA256(a);
+
+            var hash = hmac.ComputeHash(move);
+
+            Console.WriteLine("PC HMAC:" + BitConverter.ToString(hash, 0));
+        }
+
+        public int GetNumber(byte[] number, int l)
+        {
+            return Math.Abs(BitConverter.ToInt32(number, 0) % l);
         }
     }
 }

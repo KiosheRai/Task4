@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
+using System.Linq;
 
 namespace Task4
 {
     class Program
     {
+        private byte[] key;
+
         static void Main(string[] args)
         {
             if (!isRightInput(args))
@@ -14,15 +17,26 @@ namespace Task4
                 return;
             }
 
-            var movePc = MoveOfPC(args);
+            var gen = new GenerateKey();
+
+            var key = gen.CreateKey(32);
+
+            var move = gen.CreateKey(4);
+
+            var movePc = gen.GetNumber(move, args.Length);
+
+            gen.ShowHMAC(key, move);
 
             ShowMenu(args);
 
             var movePerson = MoveOfPerson(args);
 
-            if (movePerson == 0)
+            if (movePerson == -1)
                 return;
-            
+
+            Winner.ShowWinner(args, movePc, movePerson);
+
+            Console.WriteLine($"HMAC Key: {BitConverter.ToString(key, 0)}");
 
         }
 
@@ -43,13 +57,15 @@ namespace Task4
                     {
                         isInput = false;
                     }
-
-                    ShowError("A number from the menu is required");
-                    input = Console.ReadLine();
+                    else
+                    {
+                        ShowError("A number from the menu is required");
+                        input = Console.ReadLine();
+                    }
                 }
             }
 
-            return number;
+            return number - 1;
         }
 
         static void ShowHelp()
@@ -67,22 +83,6 @@ namespace Task4
             Console.WriteLine("? - help");
         }
 
-        static int MoveOfPC(string[] a)
-        {
-            var key = GenerateKey.CreateKey(32);
-            var move = GenerateKey.CreateKey(4);
-
-            int o = BitConverter.ToInt32(move, 0) / a.Length;
-
-            var hmac = new HMACSHA256(key);
-
-            var hash = hmac.ComputeHash(move);
-
-            GenerateKey.ShowHMAC(hash);
-
-            return o;
-        }
-
         static bool isRightInput(string[] a)
         {
             if (a.Length < 3)
@@ -93,11 +93,6 @@ namespace Task4
             if (a.Length % 2 == 0)
             {
                 ShowError("String Length is odd");
-                return false;
-            }
-            if (a.Length > 9)
-            {
-                ShowError("String Length > 9");
                 return false;
             }
             if (isRepeatElements(a))
