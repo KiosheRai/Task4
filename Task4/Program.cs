@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
-using System.Linq;
 
 namespace Task4
 {
     class Program
     {
-        private byte[] key;
-
         static void Main(string[] args)
         {
             if (!isRightInput(args))
             {
                 return;
             }
+
+            ////Table.ShowTable(args);
 
             var gen = new GenerateKey();
 

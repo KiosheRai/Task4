@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Task4
 {
@@ -24,6 +20,22 @@ namespace Task4
             }
 
             ShowMoves(args, movePc, movePerson);
+        }
+
+        public static string GetStatus(string[] args, int movePc, int movePerson)
+        {
+            if (isDraw(movePc, movePerson))
+            {
+                return "Draw.";
+            }
+            else if (isPersonWin(args, movePc, movePerson))
+            {
+                return "Win.";
+            }
+            else
+            {
+                return "Lose.";
+            }
         }
 
         public static void ShowMoves(string[] args, int movePc, int movePerson)
